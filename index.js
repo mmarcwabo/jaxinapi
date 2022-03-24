@@ -7,16 +7,13 @@
 var http = require('http');
 var https = require('https');
 var url = require('url');
-var stringDecoder = require('string_decoder').StringDecoder;
-var config = require('./config');
 var fs = require('fs');
+var stringDecoder = require('string_decoder').StringDecoder;
+var config = require('./lib/config');
+var handlers = require('./lib/handlers');
+var helpers = require('./lib/helpers');
 // To be able to write date
 var _data = require('./lib/data');
-
-// Testing
-_data.delete('test', 'testFile', function(err){
-    console.log('This was the error', err);
-});
 
 // Instantiate the http server 
 var httpServer = http.createServer(function(req, res){
@@ -80,7 +77,7 @@ var unifiedServer = function(req, res){
             'queryString' : queryStringObject,
             'method' : method,
             'headers' : headers,
-            'payload' : buffer
+            'payload' : helpers.parseJsonToObject(buffer)
         };
 
         // Route the request to the handler specified is the router
@@ -104,21 +101,9 @@ var unifiedServer = function(req, res){
 
     });
 };
-//Define the handlers
-var handlers = {};
-
-// Sample handler
-handlers.ping = function(data, callback){
-    callback(200);
-};
-
-// Not found handler
-handlers.notFound = function(data, callback){
-    callback(404);
-};
-
 
 //Define request router
 var router = {
-    'ping': handlers.ping
+    'ping': handlers.ping,
+    'users': handlers.users
 };
