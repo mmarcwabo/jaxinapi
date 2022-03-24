@@ -10,8 +10,15 @@ var url = require('url');
 var stringDecoder = require('string_decoder').StringDecoder;
 var config = require('./config');
 var fs = require('fs');
+// To be able to write date
+var _data = require('./lib/data');
 
-// Instantiate the http server
+// Testing
+_data.delete('test', 'testFile', function(err){
+    console.log('This was the error', err);
+});
+
+// Instantiate the http server 
 var httpServer = http.createServer(function(req, res){
     unifiedServer(req, res);  
 });
@@ -101,8 +108,8 @@ var unifiedServer = function(req, res){
 var handlers = {};
 
 // Sample handler
-handlers.sample = function(data, callback){
-    callback(406, {'name' : 'sample handler'});
+handlers.ping = function(data, callback){
+    callback(200);
 };
 
 // Not found handler
@@ -113,5 +120,5 @@ handlers.notFound = function(data, callback){
 
 //Define request router
 var router = {
-    'sample': handlers.sample
+    'ping': handlers.ping
 };
