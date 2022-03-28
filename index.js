@@ -12,8 +12,11 @@ var stringDecoder = require('string_decoder').StringDecoder;
 var config = require('./lib/config');
 var handlers = require('./lib/handlers');
 var helpers = require('./lib/helpers');
-// To be able to write date
-var _data = require('./lib/data');
+
+// @TODO GET RID OF THIS
+helpers.sendSMSNotification('993803355', 'Hello mate, from jaxinapi - by exsofth', function(err){
+    console.log('This was the error', err);
+});
 
 // Instantiate the http server 
 var httpServer = http.createServer(function (req, res) {
