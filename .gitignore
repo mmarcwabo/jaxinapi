@@ -1,3 +1,4 @@
 .env
 https/*
 .data/*
+lib/config.js
